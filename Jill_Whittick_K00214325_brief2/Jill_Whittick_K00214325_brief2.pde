@@ -1,4 +1,3 @@
-
 import at.mukprojects.imageloader.*;
 import at.mukprojects.imageloader.file.*;
 import at.mukprojects.imageloader.flickr.*;
@@ -6,9 +5,9 @@ import at.mukprojects.imageloader.image.*;
 
 
 ImageLoader loader;
-ImageList nlImages, peImages, nsImages, nbImages, qcImages, onImages, 
+ImageList images, peImages, nsImages, nbImages, qcImages, onImages, 
   mbImages, nuImages, ntImages, skImages, abImages, bcImages, ytImages;
-Image img;
+Image imgLeft, imgRight;
 
 //String apiKey = "3d2b7803505d73fb05fa3fc61bafc74d";
 String apiKey = null;
@@ -16,7 +15,7 @@ String apiKey = null;
 String apiSecret = null;
 
 void setup() {
-  size(800, 450);
+  size(800, 600);
   
   apiKey = getAPIKey("flickr.com");
 
@@ -36,40 +35,42 @@ void setup() {
 
   loader = new FlickrLoader(this, apiKey, apiSecret);
   
-  nlImages = loader.start("Newfoundland Manitoba", false, 60 * 1000);
-  //peImages = loader.start("Prince Edwrad Island", false, 60 * 1000);
-  //nsImages = loader.start("Nova Scotia", false, 60 * 1000);
-  //nbImages = loader.start("New Brunswick", false, 60 * 1000);
-  //qcImages = loader.start("Quebec", false, 60 * 1000);
-  //onImages = loader.start("Ontario", false, 60 * 1000);
-  //mbImages = loader.start("Manitoba", false, 60 * 1000);
-  //nuImages = loader.start("Nunavut", false, 60 * 1000);
-  //ntImages = loader.start("Northwest Territories", false, 60 * 1000);
-  //skImages = loader.start("Saskatchewan", false, 60 * 1000);
-  //abImages = loader.start("Alberta", false, 60 * 1000);
-  //bcImages = loader.start("British Columbia", false, 60 * 1000);
-  //ytImages = loader.start("Yukon Territory", false, 60 * 1000);
+  //images = loader.start("Newfoundland+Nature", false, 60 * 1000);
+  //images = loader.start("Newfoundland", false, 60 * 1000);
+
+  //images = loader.start("Newfoundland+Nature Prince+Edward+Island+Nature Nova+Scotia+Nature " +
+  //  "New+Brunswick+Nature Quebec+Nature Ontario+Nature Manitoba+Nature " +
+  //  "Saskatchewan+Nature Alberta+Nature British+Columbia+Nature Yukon+Nature " +
+    //"Northwest+Territories+Nature Nunavut+Nature", false, 60 * 1000);
+    
+  //images = loader.start("northern+lights", false, 100 * 1000);
+  images = loader.start("auroraborealis", false, 100 * 1000);
+
 }
 
 void draw() {
-  if (img == null) {
-      img = nlImages.getRandom();
-  } else {
+  if ((imgLeft == null) && (imgRight == null)) {
+      imgLeft = images.getRandom();
+      imgRight = images.getRandom();
+
+} else {
       
-    image(img.getImg(), 0, 0, width/2, height/2);
-    image(img.getImg(), width/2, 0, width/2, height/2);
+    image(imgLeft.getImg(), 0, 0, width/2, height/2);
+    image(imgRight.getImg(), width/2, 0, width/2, height/2);
     
   }
 }
 
 void keyPressed() {
-  img = nlImages.getRandom();
-  img = nlImages.getRandom();
+  imgLeft = images.getRandom();
+  imgRight = images.getRandom();
 
+  println(imgLeft);
+  println(imgRight);
 }
 
 
-
+ 
 
 String getAPIKey(String provider)
 {
@@ -91,7 +92,9 @@ String getAPIKey(String provider)
     
     for (int i=0; i<allKeys.length; i++)
     {
-      if (allKeys[i].getString("provider").equals("flickr.com"))
+      //if (allKeys[i].getString("provider").equals("flickr.com"))
+      if (allKeys[i].getString("provider").equals(provider))
+
       {        
         // Bingo, found the one I'm looking for. Set the APIKEY 
         theKey = allKeys[i].getString("key");
