@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <apikeys>
 	<key provider="flickr.com" key="3d2b7803505d73fb05fa3fc61bafc74d"></key>
+	<key provider="flickr.com/secret" key="d88e24aa3e6ea508"></key>
 </apikeys>
-
-<!-- secret d88e24aa3e6ea508 -->
